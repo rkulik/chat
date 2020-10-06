@@ -1,8 +1,7 @@
 import React from 'react';
 import Button from './components/button';
-import Chat, { Message } from './components/chat';
-import Form from './components/form';
-import Layout, { Footer, Header } from './components/layout';
+import Chat from './components/chat';
+import Layout, { Header, Main } from './components/layout';
 
 const App = () => (
   <Layout>
@@ -14,13 +13,9 @@ const App = () => (
       </h1>
       <Button title="sign out">sign out</Button>
     </Header>
-    <Chat>
-      <Message type="sent">Foo</Message>
-      <Message type="received">Bar</Message>
-    </Chat>
-    <Footer>
-      <Form />
-    </Footer>
+    <Main>
+      <Chat />
+    </Main>
   </Layout>
 );
 
