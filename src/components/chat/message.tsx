@@ -40,15 +40,15 @@ const Wrapper = styled.div<{ status: MessageStatus }>`
 
 type MessageStatus = 'sent' | 'received';
 
-interface MessageProps {
-  userId: string;
+export interface MessageProps {
+  photoURL: string;
   status: MessageStatus;
   text: string;
 }
 
-export const Message = ({ userId, status, text }: MessageProps) => (
+export const Message = ({ photoURL, status, text }: MessageProps) => (
   <Wrapper status={status}>
-    <img src={`https://avatars.dicebear.com/api/human/${userId}/.svg`} alt="" />
+    <img src={photoURL} alt="Avatar" />
     <p>{text}</p>
   </Wrapper>
 );

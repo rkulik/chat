@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { FormEvent, useState } from 'react';
 
 const Formular = styled.form`
   display: flex;
@@ -30,15 +30,32 @@ const Button = styled.button`
   }
 `;
 
-const Form = () => (
-  <Formular>
-    <Input type="text" />
-    <Button type="submit" title="send">
-      <span role="img" aria-label="send">
-        🚀
-      </span>
-    </Button>
-  </Formular>
-);
+const Form = ({ onSubmit }: { onSubmit: (message: string) => Promise<void> }) => {
+  const [message, setMessage] = useState('');
+  const [disabled, setDisabled] = useState(false);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!message.length) {
+      return;
+    }
+
+    setDisabled(true);
+    await onSubmit(message);
+    setMessage('');
+    setDisabled(false);
+  };
+
+  return (
+    <Formular onSubmit={handleSubmit}>
+      <Input type="text" value={message} onChange={event => setMessage(event.target.value)} />
+      <Button type="submit" title="send" disabled={disabled}>
+        <span role="img" aria-label="send">
+          🚀
+        </span>
+      </Button>
+    </Formular>
+  );
+};
 
 export default Form;

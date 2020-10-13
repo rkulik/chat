@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Form from './form';
-import { Message } from './message';
+import { Message, MessageProps } from './message';
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,53 +16,32 @@ const Messages = styled.div`
   overflow-y: scroll;
 `;
 
-const Chat = () => (
-  <Wrapper>
-    <Messages>
-      <Message userId="1" status="sent" text="lol" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-      <Message userId="2" status="received" text="haha!" />
-    </Messages>
-    <Form />
-  </Wrapper>
-);
+interface ChatProps {
+  messages: MessageProps[];
+  onSendMessage: (message: string) => Promise<void>;
+}
+
+const Chat = ({ messages, onSendMessage }: ChatProps) => {
+  const bottom = useRef<HTMLDivElement>(null);
+  const scrollToBottom = () => bottom.current?.scrollIntoView({ behavior: 'smooth' });
+
+  useEffect(() => {
+    if (messages.length) {
+      scrollToBottom();
+    }
+  }, [messages]);
+
+  return (
+    <Wrapper>
+      <Messages>
+        {messages.map(({ text, photoURL, status }, index) => (
+          <Message key={index} photoURL={photoURL} status={status} text={text} />
+        ))}
+        <div ref={bottom} />
+      </Messages>
+      <Form onSubmit={onSendMessage} />
+    </Wrapper>
+  );
+};
 
 export default Chat;
