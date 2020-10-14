@@ -46,9 +46,11 @@ export interface MessageProps {
   text: string;
 }
 
-export const Message = ({ photoURL, status, text }: MessageProps) => (
+const Message = ({ photoURL, status, text }: MessageProps) => (
   <Wrapper status={status}>
     <img src={photoURL} alt="Avatar" />
     <p>{text}</p>
   </Wrapper>
 );
+
+export default Message;

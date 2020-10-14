@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useRef } from 'react';
 import Form from './form';
-import { Message, MessageProps } from './message';
+import Message, { MessageProps } from './message';
 
 const Wrapper = styled.div`
   display: flex;
