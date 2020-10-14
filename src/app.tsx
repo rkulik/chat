@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import Button from './components/button';
 import Chat from './components/chat';
 import Layout, { Header, Main } from './components/layout';
@@ -8,9 +7,11 @@ import firebase, { auth, db } from './services/firebase';
 import { Message } from './types';
 
 const App = () => {
-  const [user] = useAuthState(auth);
+  const [user, setUser] = useState<firebase.User | null>(null);
   const messagesRef = useRef(db.collection('messages'));
   const [messages, setMessages] = useState<Message[]>([]);
+
+  useEffect(() => firebase.auth().onAuthStateChanged(user => setUser(user)), []);
 
   useEffect(() => {
     if (!user) {
