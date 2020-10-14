@@ -11,7 +11,7 @@ const App = () => {
   const messagesRef = useRef(db.collection('messages'));
   const [messages, setMessages] = useState<Message[]>([]);
 
-  useEffect(() => firebase.auth().onAuthStateChanged(user => setUser(user)), []);
+  useEffect(() => auth.onAuthStateChanged(user => setUser(user)), []);
 
   useEffect(() => {
     if (!user) {
