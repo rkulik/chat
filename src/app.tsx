@@ -6,6 +6,11 @@ import SignIn from './components/signIn';
 import firebase, { auth, db } from './services/firebase';
 import { Message } from './types';
 
+const signIn = () => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider);
+};
+
 const App = () => {
   const [user, setUser] = useState<firebase.User | null>(null);
   const messagesRef = useRef(db.collection('messages'));
@@ -33,11 +38,6 @@ const App = () => {
 
     return () => unsubscribe();
   }, [user]);
-
-  const signIn = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
-  };
 
   const sendMessage = async (message: string) => {
     if (!user) {
